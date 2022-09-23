@@ -37,7 +37,7 @@ const data = [
 ];
 export const RadialChart = () => {
   const [exceldata, setExcelData] = useState([]);
-  console.log(exceldata);
+  //   console.log(exceldata);
 
   useEffect(() => {
     fetch("http://localhost:5000/api/excelfileread")
@@ -52,20 +52,41 @@ export const RadialChart = () => {
       );
   }, []);
 
-  const array = exceldata.filter((item) => item.Fruit === "Apple");
+  const FruitPerArr = [];
+  const eatenArr = [];
+  const rottenArr = [];
+  const givewayArr = [];
+  for (let i of exceldata) {
+    for (let j in i) {
+      if (j === "fruits_Count") {
+        // console.log(i[j]);
+        FruitPerArr.push(i[j]);
+      }
 
-  var valueArr = array.map(function (item) {
-    return item.Fruit;
-  });
+      if (j === "Eaten") {
+        eatenArr.push(i[j]);
+      }
 
-  //   var isDuplicate = array.some(function (item, idx) {
-  //     return array.indexOf(item) != idx;
-  //   });
-  //   console.log(isDuplicate);
+      if (j === "Rotten") {
+        rottenArr.push(i[j]);
+      }
+
+      if (j === "Giveaway") {
+        givewayArr.push(i[j]);
+      }
+    }
+  }
+
+  console.log(FruitPerArr);
+
+  const fSum = FruitPerArr.reduce((acc, cur) => acc + cur, 0);
+  const eSum = eatenArr.reduce((acc, cur) => acc + cur, 0);
+  const rSum = rottenArr.reduce((acc, cur) => acc + cur, 0);
+  const gSum = givewayArr.reduce((acc, cur) => acc + cur, 0);
 
   return (
     <>
-      <div>
+      <div className='flex items-center justify-center'>
         <RadarChart
           cx={300}
           cy={250}
@@ -128,53 +149,48 @@ export const RadialChart = () => {
                       >
                         Rotten
                       </th>
+                      <th
+                        scope='col'
+                        class='text-sm font-medium text-gray-900 px-6 py-4 text-left'
+                      >
+                        Giveaway
+                      </th>
                     </tr>
                   </thead>
                   <tbody>
-                    <tr class='bg-white border-b transition duration-300 ease-in-out hover:bg-gray-100'>
-                      <td class='px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900'>
-                        1
-                      </td>
-                      <td class='text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap'>
-                        Mark
-                      </td>
-                      <td class='text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap'>
-                        Otto
-                      </td>
-                      <td class='text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap'>
-                        @mdo
-                      </td>
-                    </tr>
-                    <tr class='bg-white border-b transition duration-300 ease-in-out hover:bg-gray-100'>
-                      <td class='px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900'>
-                        2
-                      </td>
-                      <td class='text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap'>
-                        Jacob
-                      </td>
-                      <td class='text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap'>
-                        Thornton
-                      </td>
-                      <td class='text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap'>
-                        @fat
-                      </td>
-                    </tr>
-                    <tr class='bg-white border-b transition duration-300 ease-in-out hover:bg-gray-100'>
-                      <td class='px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900'>
-                        3
-                      </td>
-                      <td class='text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap'>
-                        Larry
-                      </td>
-                      <td class='text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap'>
-                        Wild
-                      </td>
-                      <td class='text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap'>
-                        @twitter
-                      </td>
-                    </tr>
+                    {exceldata.map((item) => {
+                      return (
+                        <>
+                          <tr class='bg-white border-b transition duration-300 ease-in-out hover:bg-gray-100'>
+                            <td class='px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900'>
+                              {item.Fruit}
+                            </td>
+
+                            <td class='px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900'>
+                              {item.fruits_Count}
+                            </td>
+
+                            <td class='px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900'>
+                              {item.Eaten}
+                            </td>
+                            <td class='px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900'>
+                              {item.Rotten}
+                            </td>
+                            <td class='px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900'>
+                              {item.Giveaway}
+                            </td>
+                          </tr>
+                        </>
+                      );
+                    })}
                   </tbody>
                 </table>
+                <div className='flex justify-center gap-60 '>
+                  <p className=' flex'>100% {fSum}</p>
+                  <p className=''>100% {eSum}</p>
+                  <p className=''>100% {rSum}</p>
+                  <p className=''>100% {gSum}</p>
+                </div>
               </div>
             </div>
           </div>
