@@ -93,23 +93,31 @@ export const RadialChart = () => {
           outerRadius={150}
           width={500}
           height={500}
-          data={data}
+          data={exceldata}
         >
           <PolarGrid />
-          <PolarAngleAxis dataKey='subject' />
-          <PolarRadiusAxis angle={30} domain={[0, 150]} />
+          <PolarAngleAxis dataKey='Fruit' />
+          <PolarRadiusAxis angle={30} domain={[0, 17]} />
           <Radar
-            name='Mike'
-            dataKey='A'
+            name='James'
+            dataKey='Giveaway'
             stroke='#8884d8'
             fill='#8884d8'
             fillOpacity={0.6}
           />
           <Radar
-            name='Lily'
-            dataKey='B'
+            name='Kelvin'
+            dataKey='Rotten'
             stroke='#82ca9d'
             fill='#82ca9d'
+            fillOpacity={0.6}
+          />
+
+          <Radar
+            name='Peter'
+            dataKey='Eaten'
+            stroke='#000'
+            fill='#000'
             fillOpacity={0.6}
           />
           <Legend />
